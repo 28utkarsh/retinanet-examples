@@ -91,6 +91,9 @@ public:
     assert(nbInputDims == 3);
     assert(index < this->getNbOutputs());
     return Dims3(_detections_per_im * (index == 1 ? 4 : 1), 1, 1);
+    // Scores -> [dets, 1, 1] <= nvinfer dims
+    // Boxes -> [dets * 4, 1, 1]
+    // Classes -> [dets, 1, 1]
   }
 
   bool supportsFormat(DataType type, PluginFormat format) const override {

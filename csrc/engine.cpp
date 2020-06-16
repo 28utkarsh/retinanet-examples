@@ -74,7 +74,7 @@ void Engine::_prepare() {
 
 Engine::Engine(const string &path, bool verbose) {
     Logger logger(verbose);
-    _runtime = createInferRuntime(logger);
+    _runtime = createInferRuntime(logger); // Defined in nvinfer1 namespace
     _load(path);
     _prepare();
 }
@@ -195,7 +195,8 @@ void Engine::infer(vector<void *> &buffers, int batch) {
 
 vector<int> Engine::getInputSize() {
     auto dims = _engine->getBindingDimensions(0);
-    return {dims.d[1], dims.d[2]};
+    // TODO
+    return {dims.d[1], dims.d[2]}; 
 }
 
 int Engine::getMaxBatchSize() {
@@ -203,6 +204,11 @@ int Engine::getMaxBatchSize() {
 }
 
 int Engine::getMaxDetections() {
+    // Scores, Boxes, Classes
+    // [], []
+
+    // TODO: Batch or Num of Detection???
+    // TODO: In Master Branch: index 1 is used in place of 0
     return _engine->getBindingDimensions(1).d[0];
 }
 

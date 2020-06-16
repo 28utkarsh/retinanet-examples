@@ -43,7 +43,7 @@ int main(int argc, char *argv[]) {
 	Mat inferred_frame;
 	int count=1;
 
-	auto inputSize = engine.getInputSize();
+	auto inputSize = engine.getInputSize(); // Vector of Integers
 	// Create device buffers
 	void *data_d, *scores_d, *boxes_d, *classes_d;
 	auto num_det = engine.getMaxDetections();
@@ -76,10 +76,13 @@ int main(int argc, char *argv[]) {
 
 		cv::resize(frame, resized_frame, Size(inputSize[1], inputSize[0]));
 		cv::Mat pixels;
+		// TODO -> convertTo
 		resized_frame.convertTo(pixels, CV_32FC3, 1.0 / 255, 0);
 
+		// TODO -> std::vector.assign()
 		img.assign((float*)pixels.datastart, (float*)pixels.dataend);
 
+		// Converts HWC to CHW and BGR to RGB
 		for (int c = 0; c < channels; c++) {
 			for (int j = 0, hw = inputSize[0] * inputSize[1]; j < hw; j++) {
 				data[c * hw + j] = (img[channels * j + 2 - c] - mean[c]) / std[c];
