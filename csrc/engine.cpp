@@ -201,6 +201,8 @@ Engine::Engine(const char *onnx_model, size_t onnx_size, const vector<int>& dyna
     network->destroy();
     builderConfig->destroy();
     builder->destroy();
+
+    _prepare();
 }
 
 void Engine::save(const string &path) {
